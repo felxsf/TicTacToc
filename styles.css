@@ -1,0 +1,325 @@
+:root {
+  /* Variables base (Tema Moderno / Default) */
+  --bg-color: #0f172a;
+  --text-color: #f1f5f9;
+  --accent-color: #3b82f6;
+  --board-bg: #1e293b;
+  --cell-bg: #334155;
+  --cell-hover: #475569;
+  --win-color: #22c55e;
+  --lose-color: #ef4444;
+  --font-main: 'Segoe UI', system-ui, sans-serif;
+  --radius: 16px;
+  --shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  --cell-shadow: inset 0 2px 4px 0 rgb(255 255 255 / 0.05);
+  --border-width: 0px;
+  --bg-image: radial-gradient(circle at top, #1e293b, #0f172a);
+}
+
+/* TEMA NEON / CYBERPUNK */
+body.theme-neon {
+  --bg-color: #050505;
+  --text-color: #e0e7ff;
+  --accent-color: #d946ef; /* Magenta neón */
+  --board-bg: #18181b;
+  --cell-bg: #27272a;
+  --cell-hover: #3f3f46;
+  --win-color: #00ff9d; /* Verde neón */
+  --lose-color: #ff0055; /* Rojo neón */
+  --font-main: 'Courier New', Courier, monospace; /* Tech feel */
+  --radius: 4px;
+  --shadow: 0 0 20px rgba(217, 70, 239, 0.2);
+  --cell-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+  --border-width: 1px;
+  --bg-image: 
+    linear-gradient(rgba(217, 70, 239, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(217, 70, 239, 0.1) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* TEMA RETRO / PIXEL */
+body.theme-retro {
+  --bg-color: #8bac0f; /* Gameboy green light */
+  --text-color: #0f380f; /* Gameboy dark */
+  --accent-color: #306230;
+  --board-bg: #9bbc0f;
+  --cell-bg: #8bac0f;
+  --cell-hover: #9bbc0f;
+  --win-color: #0f380f;
+  --lose-color: #306230;
+  --font-main: 'Courier New', monospace; /* Pixel-ish fallback */
+  --radius: 0px;
+  --shadow: 4px 4px 0px #0f380f;
+  --cell-shadow: none;
+  --border-width: 2px;
+  --bg-image: radial-gradient(#0f380f 15%, transparent 16%);
+  background-size: 10px 10px;
+}
+
+* { box-sizing: border-box; transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease; }
+
+body {
+  margin: 0;
+  font-family: var(--font-main);
+  background-color: var(--bg-color);
+  background-image: var(--bg-image);
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 16px;
+}
+
+.app {
+  width: 100%;
+  max-width: 480px;
+  /* Centrado vertical en pantallas grandes, pero permitir scroll en móviles */
+  margin: auto; 
+  padding: 24px;
+  background: var(--board-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: var(--border-width) solid var(--text-color);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Header & Controls */
+h1 {
+  text-align: center;
+  margin: 0;
+  font-size: clamp(1.8rem, 5vw, 2.5rem);
+  line-height: 1.2;
+  letter-spacing: -1px;
+  background: linear-gradient(135deg, var(--text-color) 0%, var(--accent-color) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+body.theme-retro h1 {
+  background: none;
+  -webkit-text-fill-color: var(--text-color);
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: stretch; /* Estirar controles para ocupar espacio disponible */
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1 1 140px; /* Base más ancha para evitar colapso prematuro */
+}
+
+label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  opacity: 0.9;
+  margin-left: 2px;
+}
+
+select, button {
+  appearance: none;
+  background: var(--cell-bg);
+  color: var(--text-color);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 10px 14px; /* Padding ligeramente reducido para móviles */
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+  width: 100%;
+  height: 44px; /* Altura táctil estándar */
+}
+body.theme-retro select, body.theme-retro button {
+  border: 2px solid var(--text-color);
+}
+
+select:hover, button:hover {
+  background: var(--cell-hover);
+}
+
+button#nuevo {
+  background: var(--accent-color);
+  color: #fff;
+  border: none;
+  margin-bottom: 8px;
+}
+body.theme-neon button#nuevo {
+  box-shadow: 0 0 15px var(--accent-color);
+  color: #000;
+  font-weight: bold;
+}
+body.theme-retro button#nuevo {
+  background: var(--text-color);
+  color: var(--bg-color);
+}
+
+/* Tablero */
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr); /* Forzar filas iguales */
+  gap: 10px;
+  aspect-ratio: 1 / 1; /* Asegurar proporción cuadrada */
+  width: 100%;
+  max-width: 400px; /* Limitar ancho máximo del tablero para que no crezca infinito */
+  margin: 0 auto; /* Centrar tablero */
+}
+
+.cell {
+  background: var(--cell-bg);
+  border-radius: var(--radius);
+  border: none;
+  font-size: clamp(2rem, 10vw, 3.5rem); /* Ajuste de fuente más controlado */
+  font-weight: bold;
+  color: var(--text-color);
+  cursor: pointer;
+  box-shadow: var(--cell-shadow);
+  display: flex; /* Flex para centrar mejor que grid en algunos navegadores */
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  height: 100%; /* Llenar la celda del grid */
+  width: 100%;
+  overflow: hidden; /* Evitar desbordes */
+}
+body.theme-retro .cell {
+  border: 2px solid var(--text-color);
+}
+
+.cell:hover:not(:disabled) {
+  background: var(--cell-hover);
+  transform: translateY(-2px);
+}
+body.theme-retro .cell:hover:not(:disabled) {
+  transform: none;
+}
+
+/* Animaciones de X / O */
+@keyframes popIn {
+  0% { transform: scale(0.5); opacity: 0; }
+  80% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.cell span {
+  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  display: inline-block;
+  line-height: 1;
+}
+.cell span.x { color: var(--accent-color); }
+.cell span.o { color: var(--text-color); opacity: 0.7; }
+
+/* Estados de victoria/derrota */
+.cell.win {
+  background: var(--win-color) !important;
+  color: #fff !important;
+  animation: pulse 1s infinite;
+}
+.cell.lose {
+  background: var(--lose-color) !important;
+  color: #fff !important;
+}
+body.theme-retro .cell.win, body.theme-retro .cell.lose {
+  color: var(--bg-color) !important;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+}
+
+/* Footer / Status */
+.status {
+  text-align: center;
+  background: var(--cell-bg);
+  padding: 16px;
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+body.theme-retro .status {
+  border: 2px solid var(--text-color);
+}
+
+#mensaje {
+  font-size: 1.2rem;
+  font-weight: 600;
+  min-height: 1.5em;
+}
+
+.score {
+  display: flex;
+  justify-content: space-around;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.score div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.score strong {
+  font-size: 1.2rem;
+}
+
+/* Neon Glows extras */
+body.theme-neon .cell.win {
+  box-shadow: 0 0 30px var(--win-color);
+}
+body.theme-neon .cell.lose {
+  box-shadow: 0 0 30px var(--lose-color);
+}
+
+/* Responsive Tweaks */
+@media (max-width: 480px) {
+  body {
+    padding: 10px;
+    align-items: center; /* Volver a centrar, el scroll se maneja natural */
+    justify-content: flex-start; /* Empezar desde arriba */
+  }
+
+  .app {
+    padding: 16px;
+    max-width: 100%;
+    margin: 0; /* Quitar margen auto que puede causar problemas */
+    gap: 12px; /* Reducir gaps */
+  }
+  
+  .controls {
+    flex-direction: row; 
+  }
+
+  .control-group {
+    min-width: 40%; /* Asegurar que quepan dos */
+  }
+  
+  /* Ajustar fuente de celdas específicamente para móvil */
+  .cell {
+    font-size: clamp(1.5rem, 15vw, 3rem); 
+  }
+
+  .score {
+    font-size: 0.8rem;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+  
+  h1 {
+      font-size: 1.8rem;
+      margin-bottom: 4px;
+  }
+}

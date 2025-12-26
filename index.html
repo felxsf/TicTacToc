@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TicTacToc</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="app">
+    <h1>TicTacToc</h1>
+    <div class="controls">
+      <div class="control-group">
+        <label for="tema">Mundo:</label>
+        <select id="tema">
+          <option value="moderno">Moderno</option>
+          <option value="neon">Neon City</option>
+          <option value="retro">Retro Bit</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label for="nivel">Dificultad:</label>
+        <select id="nivel">
+          <option value="facil">Fácil</option>
+          <option value="medio">Medio</option>
+          <option value="dificil">Imposible</option>
+        </select>
+      </div>
+    </div>
+    <button id="nuevo" style="width:100%; margin-bottom: 24px;">Nueva partida</button>
+    
+    <div id="tablero" class="board"></div>
+    <div class="status">
+      <div id="mensaje"></div>
+      <div class="score">
+        <span>Victorias: <strong id="victorias">0</strong></span>
+        <span>Empates: <strong id="empates">0</strong></span>
+        <span>Derrotas: <strong id="derrotas">0</strong></span>
+      </div>
+    </div>
+  </div>
+  <script src="src/game.js"></script>
+    <script src="src/ui.js"></script>
+    <script src="src/ai.js"></script>
+    <script src="src/main.js"></script>
+</body>
+</html>
+
