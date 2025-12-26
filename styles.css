@@ -56,6 +56,72 @@ body.theme-retro {
   background-size: 10px 10px;
 }
 
+/* TEMA GALAXY / 8-BIT SPACE */
+body.theme-galaxy {
+  --bg-color: #050010;
+  --text-color: #e0d0ff;
+  --accent-color: #a020f0; /* Morado espacial */
+  --board-bg: #150a2e;
+  --cell-bg: #2a1b4e;
+  --cell-hover: #3d286b;
+  --win-color: #00ffff; /* Cian brillante */
+  --lose-color: #ff0055;
+  --font-main: 'Courier New', monospace;
+  --radius: 8px;
+  --shadow: 0 0 15px rgba(160, 32, 240, 0.4);
+  --cell-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+  --border-width: 2px;
+  /* Patrón de estrellas pixeladas */
+  --bg-image: 
+    radial-gradient(white 1px, transparent 1px),
+    radial-gradient(rgba(255,255,255,0.5) 1px, transparent 1px);
+  background-size: 50px 50px;
+  background-position: 0 0, 25px 25px;
+}
+
+/* TEMA FOREST / PIXEL NATURE */
+body.theme-forest {
+  --bg-color: #2d3c16; /* Verde oscuro bosque */
+  --text-color: #e8f7d8; /* Verde muy claro */
+  --accent-color: #8fbc8f; /* DarkSeaGreen */
+  --board-bg: #1a240e;
+  --cell-bg: #3a4d1c;
+  --cell-hover: #4b6324;
+  --win-color: #76c442;
+  --lose-color: #cc4444;
+  --font-main: 'Courier New', monospace;
+  --radius: 4px;
+  --shadow: 4px 4px 0px #111;
+  --cell-shadow: none;
+  --border-width: 3px;
+  /* Patrón de hojas/checkerboard sutil */
+  --bg-image: repeating-linear-gradient(45deg, #2d3c16 25%, #35461a 25%, #35461a 50%, #2d3c16 50%, #2d3c16 75%, #35461a 75%, #35461a 100%);
+  background-size: 20px 20px;
+}
+
+/* TEMA CANDY / PASTEL PIXEL */
+body.theme-candy {
+  --bg-color: #ffe6f2; /* Rosa pastel muy claro */
+  --text-color: #884466; /* Rosa oscuro */
+  --accent-color: #ff66b2; /* Hot pink suave */
+  --board-bg: #fff0f6;
+  --cell-bg: #ffccdd;
+  --cell-hover: #ffb3d1;
+  --win-color: #66ccff; /* Azul cielo */
+  --lose-color: #ff8888;
+  --font-main: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+  --radius: 20px;
+  --shadow: 6px 6px 0px rgba(255, 150, 200, 0.3);
+  --cell-shadow: inset 2px 2px 5px rgba(255,255,255,0.8), inset -2px -2px 5px rgba(0,0,0,0.05);
+  --border-width: 4px;
+  /* Patrón de topos/polka dots */
+  --bg-image: 
+    radial-gradient(#ffb3d9 20%, transparent 20%),
+    radial-gradient(#ffb3d9 20%, transparent 20%);
+  background-size: 30px 30px;
+  background-position: 0 0, 15px 15px;
+}
+
 * { box-sizing: border-box; transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease; }
 
 body {
