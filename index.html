@@ -36,12 +36,23 @@
     <div class="status">
       <div id="mensaje"></div>
       <div class="score">
-        <span>Victorias: <strong id="victorias">0</strong></span>
-        <span>Empates: <strong id="empates">0</strong></span>
-        <span>Derrotas: <strong id="derrotas">0</strong></span>
+        <div class="player">
+          Tu: <strong id="score-player">0</strong>
+        </div>
+        <div class="ties">
+          Empates: <strong id="score-draw">0</strong>
+        </div>
+        <div class="computer">
+          IA: <strong id="score-ai">0</strong>
+        </div>
       </div>
     </div>
+    
+    <footer class="signature">
+      <p>Created by <strong>Ferasf</strong></p>
+    </footer>
   </div>
+
   <script src="src/game.js"></script>
     <script src="src/ui.js"></script>
     <script src="src/ai.js"></script>
